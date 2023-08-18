@@ -1,4 +1,4 @@
-import Index from "./components/Card";
+import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 
@@ -25,7 +25,14 @@ function App() {
         <div className="d-flex flex-wrap">
           {
             arr.map((obj, index) => (
-              <Index title={obj.title} price={obj.price} imageUrl={obj.imageUrl} onClick={() => console.log(obj)} key={index}/>
+              <Card
+                title={obj.title}
+                price={obj.price}
+                imageUrl={obj.imageUrl}
+                onFavorite={() => console.log('Добавили в закладки')}
+                onPlus={() => console.log('Нажали на плюс')}
+                key={index}
+              />
             ))
           }
         </div>
