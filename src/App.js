@@ -13,6 +13,7 @@ function App() {
   const [favorites, setFavorites] = React.useState([])
   const [searchValue, setSearchValue] = React.useState('')
   const [cartOpened, setCartOpened] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
     async function fetchData() {
@@ -23,6 +24,7 @@ function App() {
       setCartItems(cartResponse.data.data)
       setFavorites(favoritesResponse.data.data)
       setItems(itemsResponse.data.data)
+      setIsLoading(false)
     }
     fetchData()
   }, [])
@@ -72,6 +74,7 @@ function App() {
           onChangeSearchInput={onChangeSearchInput}
           onAddToFavorite={onAddToFavorite}
           onAddToCart={onAddToCart}
+          isLoading={isLoading}
         />}/>
         <Route path="/favorite" exact element={<Favorite
           items={favorites}
