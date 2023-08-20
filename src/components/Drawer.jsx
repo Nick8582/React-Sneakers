@@ -12,8 +12,8 @@ function Drawer({onClose, onRemove, items = []}) {
             <>
               <div className="items">
                 {
-                  items.map((obj, index) => (
-                    <div className="cartItem d-flex align-center mb-20" key={index}>
+                  items.map((obj) => (
+                    <div className="cartItem d-flex align-center mb-20" key={obj.id}>
                       <div style={{backgroundImage: `url(${obj.imageUrl})`}} className="cartItemImg"></div>
                       <div className="mr-20 flex">
                         <p className="mb-5">{obj.title}</p>

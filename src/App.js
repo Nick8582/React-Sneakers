@@ -15,20 +15,26 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false)
 
   React.useEffect(() => {
-    axios.get(`https://k0utn3o9bl.mockify.ru/api/items`).then(res => {
-      setItems(res.data.data)
-    })
-    axios.get(`https://k0utn3o9bl.mockify.ru/api/cart`).then(res => {
-      setCartItems(res.data.data)
-    })
-    axios.get(`https://k0utn3o9bl.mockify.ru/api/favorites`).then(res => {
-      setFavorites(res.data.data)
-    })
+    async function fetchData() {
+      const cartResponse = await axios.get(`https://k0utn3o9bl.mockify.ru/api/cart`)
+      const favoritesResponse = await axios.get(`https://k0utn3o9bl.mockify.ru/api/favorites`)
+      const itemsResponse = await axios.get(`https://k0utn3o9bl.mockify.ru/api/items`)
+
+      setCartItems(cartResponse.data.data)
+      setFavorites(favoritesResponse.data.data)
+      setItems(itemsResponse.data.data)
+    }
+    fetchData()
   }, [])
 
   const onAddToCart = (obj) => {
-    axios.post(`https://k0utn3o9bl.mockify.ru/api/cart`, obj)
-    setCartItems(prev => [...prev, obj])
+    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+      axios.delete(`https://k0utn3o9bl.mockify.ru/api/cart/${obj.id}`)
+      setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
+    } else {
+      axios.post(`https://k0utn3o9bl.mockify.ru/api/cart`, obj)
+      setCartItems(prev => [...prev, obj])
+    }
   }
 
   const onRemoveItem = (id) => {
@@ -60,12 +66,12 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Home
           items={items}
+          cartItem={cartItems}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           onChangeSearchInput={onChangeSearchInput}
           onAddToFavorite={onAddToFavorite}
           onAddToCart={onAddToCart}
-          onRemoveItem={onRemoveItem}
         />}/>
         <Route path="/favorite" exact element={<Favorite
           items={favorites}

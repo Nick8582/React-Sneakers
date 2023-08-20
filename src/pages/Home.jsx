@@ -1,7 +1,7 @@
 import Card from "../components/Card";
 import React from "react";
 
-function Home({items, searchValue, setSearchValue, onAddToCart, onAddToFavorite, onChangeSearchInput, onRemoveItem}) {
+function Home({items, searchValue, setSearchValue, onAddToCart, onAddToFavorite, onChangeSearchInput, cartItem}) {
   return (
     <div className="content p-40">
       <div className="d-flex justify-between align-center mb-40">
@@ -26,7 +26,7 @@ function Home({items, searchValue, setSearchValue, onAddToCart, onAddToFavorite,
               {...item}
               onFavorite={(obj) => onAddToFavorite(obj)}
               onPlus={(obj) => onAddToCart(obj)}
-              onRemove={() => onRemoveItem(item.id)}
+              added={cartItem.some(obj => Number(obj.id) === Number(item.id))}
               key={item.id}
             />
           ))}

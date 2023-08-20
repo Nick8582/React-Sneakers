@@ -1,13 +1,13 @@
 import styles from './Card.module.scss'
 import React from "react";
 
-function Index({imageUrl, title, price, onFavorite, id, onPlus, onRemove, favorited=false }) {
-  const [isAdded, setIsAdded] = React.useState(false)
+function Index({imageUrl, title, price, onFavorite, id, onPlus, favorited=false, added = false }) {
+  const [isAdded, setIsAdded] = React.useState(added)
   const [isFavorite, setIsFavorite] = React.useState(favorited)
 
   const onClickPlus = () => {
     setIsAdded(!isAdded)
-    isAdded ? onRemove() : onPlus({imageUrl, title, price, id})
+    onPlus({imageUrl, title, price, id})
   }
 
   const onClickLiked = () => {
