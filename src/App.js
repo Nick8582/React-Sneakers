@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Favorite from "./pages/Favorite";
 
 import AppContext from "./context";
+import Orders from "./pages/Orders";
 
 function App() {
   const [items, setItems] = React.useState([])
@@ -28,6 +29,7 @@ function App() {
       setItems(itemsResponse.data.data)
       setIsLoading(false)
     }
+
     fetchData()
   }, [])
 
@@ -69,7 +71,17 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems}}>
+    <AppContext.Provider
+      value={{
+        items,
+        cartItems,
+        favorites,
+        isItemAdded,
+        onAddToFavorite,
+        onAddToCart,
+        setCartOpened,
+        setCartItems
+      }}>
       <div className="wrapper clear">
         {cartOpened && (
           <Drawer items={cartItems} onRemove={onRemoveItem} onClose={() => setCartOpened(false)}/>
@@ -87,6 +99,7 @@ function App() {
             isLoading={isLoading}
           />}/>
           <Route path="/favorite" exact element={<Favorite/>}/>
+          <Route path="/orders" exact element={<Orders/>}/>
         </Routes>
       </div>
     </AppContext.Provider>
