@@ -3,16 +3,14 @@ import ContentLoader from "react-content-loader";
 import styles from './Card.module.scss'
 import AppContext from "../../context";
 
-function Index({imageUrl, title, price, onFavorite, id, onPlus, favorited = false, loading = false}) {
+function Index({imageUrl, title, price, onFavorite, id, onPlus, loading = false}) {
 
-  const {isItemAdded} = React.useContext(AppContext)
-  const [isFavorite, setIsFavorite] = React.useState(favorited)
+  const {isItemAdded, isItemFavorite} = React.useContext(AppContext)
   const onClickPlus = () => {
     onPlus({imageUrl, title, price, id})
   }
 
   const onClickLiked = () => {
-    setIsFavorite(!isFavorite)
     onFavorite({imageUrl, title, price, id})
   }
 
@@ -32,12 +30,12 @@ function Index({imageUrl, title, price, onFavorite, id, onPlus, favorited = fals
           <rect x="0" y="234" rx="5" ry="5" width="80" height="25"/>
           <rect x="124" y="230" rx="10" ry="10" width="32" height="32"/>
         </ContentLoader>) : (<>
-          <div className={styles.favorite} onClick={onClickLiked}>
+          { onFavorite && <div className={styles.favorite} onClick={onClickLiked}>
             <img
-              src={isFavorite ? '/img/heart-liked.svg' : '/img/heart-unliked.svg'}
+              src={isItemFavorite(id) ? '/img/heart-liked.svg' : '/img/heart-unliked.svg'}
               alt="Unliked"
             />
-          </div>
+          </div>}
           <img width='100%' height={135} src={imageUrl} alt="Sneakers"/>
           <h5>{title}</h5>
           <div className="d-flex justify-between align-center">
@@ -45,12 +43,12 @@ function Index({imageUrl, title, price, onFavorite, id, onPlus, favorited = fals
               <span>Цена:</span>
               <b>{price} руб.</b>
             </div>
-            <img
+            {onPlus && <img
               className={styles.plus}
               onClick={onClickPlus}
               src={isItemAdded(id) ? '/img/btn-checked.svg' : '/img/btn-plus.svg'}
               alt="Plus"
-            />
+            />}
           </div>
         </>)
       }

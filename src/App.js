@@ -54,8 +54,8 @@ function App() {
         axios.delete(`https://k0utn3o9bl.mockify.ru/api/favorites/${obj.id}`)
         setFavorites((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)))
       } else {
-        const resp = await axios.post(`https://k0utn3o9bl.mockify.ru/api/favorites`, obj)
-        setFavorites(prev => [...prev, resp.config.data])
+        await axios.post(`https://k0utn3o9bl.mockify.ru/api/favorites`, obj)
+        setFavorites(prev => [...prev, obj])
       }
     } catch (error) {
       alert('Не удалось добавить в избранное')
@@ -70,6 +70,10 @@ function App() {
     return cartItems.some((obj) => Number(obj.id) === Number(id))
   }
 
+  const isItemFavorite = (id) => {
+    return favorites.some((obj) => Number(obj.id) === Number(id))
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -77,6 +81,7 @@ function App() {
         cartItems,
         favorites,
         isItemAdded,
+        isItemFavorite,
         onAddToFavorite,
         onAddToCart,
         setCartOpened,
@@ -98,7 +103,7 @@ function App() {
             onAddToCart={onAddToCart}
             isLoading={isLoading}
           />}/>
-          <Route path="/favorite" exact element={<Favorite/>}/>
+          <Route path="/favorite" exact element={<Favorite onAddToCart={onAddToCart} />}/>
           <Route path="/orders" exact element={<Orders/>}/>
         </Routes>
       </div>

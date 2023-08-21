@@ -31,8 +31,6 @@ function Orders() {
           <Card
             {...item}
             key={index}
-            onFavorite={(obj => onAddToFavorite(obj))}
-            onPlus={(obj) => onAddToCart(obj)}
             loading={isLoading}
           />
         ))}
