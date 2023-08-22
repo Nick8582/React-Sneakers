@@ -1,11 +1,12 @@
-import Info from "./Info";
+import Info from "../Info";
 import React, {useState} from "react";
 import axios from "axios";
-import {useCart} from "../hooks/useCart";
+import {useCart} from "../../hooks/useCart";
+import styles from './Drawer.module.scss'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-function Drawer({onClose, onRemove, items = []}) {
+function Drawer({onClose, onRemove, items = [], opened}) {
   const { cartItems, setCartItems, totalPrice} = useCart()
   const [isOrderComplite, setIsOrderComplite] = useState(false);
   const [orderId, setOrderId] = React.useState(null)
@@ -33,8 +34,8 @@ function Drawer({onClose, onRemove, items = []}) {
   }
 
   return (
-    <div className="overlay">
-      <div className="drawer">
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+      <div className={styles.drawer}>
         <h2 className="d-flex justify-between mb-30 ">
           Корзина
           <img className="removeBtn cu-p" src="/img/btn-remove.svg" onClick={onClose} alt="Close"/>
@@ -67,7 +68,7 @@ function Drawer({onClose, onRemove, items = []}) {
                 <li>
                   <span>Налог 5%:</span>
                   <div></div>
-                  <b>{totalPrice / 100 * 5} руб. </b>
+                  <b>{Math.round(totalPrice / 100 * 5)} руб. </b>
                 </li>
               </ul>
               <button disabled={isLoading} onClick={onClickOrder} className="greenButton">

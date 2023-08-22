@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "../components/Card";
 import axios from "axios";
-import AppContext from "../context";
+import Info from "../components/Info";
 
 function Orders() {
-  const {onAddToFavorite, onAddToCart} = useContext(AppContext)
   const [orders, setOrders] = useState([])
   const [isLoading, setIsLoading] = React.useState(true)
 
@@ -22,19 +21,28 @@ function Orders() {
 
   return (
     <div className="content p-40">
-      <div className="d-flex justify-between align-center mb-40">
-        <h1>Мои заказы</h1>
+      {
+        orders.length > 0 ?
+          (<>
+              <div className="d-flex justify-between align-center mb-40">
+                <h1>Мои заказы</h1>
 
-      </div>
-      <div className="d-flex flex-wrap">
-        {(isLoading ? [...Array(8)] : orders).map((item, index) => (
-          <Card
-            {...item}
-            key={index}
-            loading={isLoading}
-          />
-        ))}
-      </div>
+              </div>
+              <div className="d-flex flex-wrap">
+                {(isLoading ? [...Array(8)] : orders).map((item, index) => (
+                  <Card
+                    {...item}
+                    key={index}
+                    loading={isLoading}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <Info title="У вас нет заказов" description="Вы нищеброд?   Оформите хотя бы один заказ." image="/img/buy-no.png" btn={true} />
+          )
+      }
+
     </div>
   );
 }
