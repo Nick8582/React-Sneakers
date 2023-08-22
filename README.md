@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# React-sneakers online store
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created to gain new knowledge and consolidate existing ones. This project has been completed.
 
 ## Available Scripts
 
